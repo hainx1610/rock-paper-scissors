@@ -3,36 +3,40 @@ const getComputerChoice = choiceList => {
     return choiceList[Math.floor(Math.random() * choiceList.length)];
 }
 
+let playerChoice;
+
 let computerScore = 0;
 let playerScore = 0;
 
 const playRound = (playerSelection, computerSelection) => {
+    const winMessage = `You won! ${playerSelection} beats ${computerSelection}.`;
+    const loseMessage = `You lost! ${computerSelection} beats ${playerSelection}.`;
     if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
         return("Draw!")
     } else {
         if (playerSelection.toLowerCase() === "rock") {
             if (computerSelection === "Paper") {
                 computerScore++;
-                return(`You lost! ${computerSelection} beats ${playerSelection}.`);
+                return(loseMessage);
             } else {
                 playerScore++;
-                return(`You won! ${playerSelection} beats ${computerSelection}`);
+                return(winMessage);
             }
         } else if (playerSelection.toLowerCase() === "paper") {
             if (computerSelection === "Scissors") {
                 computerScore++;
-                return(`You lost! ${computerSelection} beats ${playerSelection}.`);
+                return(loseMessage);
             } else {
                 playerScore++;
-                return(`You won! ${playerSelection} beats ${computerSelection}`);
+                return(winMessage);
             }
         } else if (playerSelection.toLowerCase() === "scissors") {
             if (computerSelection === "Rock") {
                 computerScore++;
-                return(`You lost! ${computerSelection} beats ${playerSelection}.`);
+                return(loseMessage);
             } else {
                 playerScore++;
-                return(`You won! ${playerSelection} beats ${computerSelection}`);
+                return(winMessage);
             }
         } else {
             return("Wrong input!")
@@ -40,18 +44,28 @@ const playRound = (playerSelection, computerSelection) => {
     }
 }
 
-const game = () => {
-    
-    for (let i = 0; i < 5; i++) {
-        console.log(playRound((prompt("Pick your poison!")), getComputerChoice(choices)));
-    }
-    if (computerScore === playerScore) {
-        console.log("Final result: Draw!")
-    } else if (computerScore > playerScore) {
-        console.log("Final: You've lost...")
-    } else {
-        console.log("Final: You've won!")
+function game() {
+    playerChoice = this.textContent;
+    console.log(playRound(playerChoice, getComputerChoice(choices)));
+    console.log(`${playerScore} vs. ${computerScore}`);
+    if ((playerScore == 5) || (computerScore == 5)) {
+        if (playerScore == 5) {
+            alert("You win!");
+        } else {
+            alert("You lose...");
+        }
+        playerScore = 0;
+        computerScore = 0;
     }
 }
 
-game();
+const rockElement = document.querySelector("#rock");
+rockElement.addEventListener("click", game);
+
+const paperElement = document.querySelector("#paper");
+paperElement.addEventListener("click", game);
+
+const scissorsElement = document.querySelector("#scissors");
+scissorsElement.addEventListener("click", game);
+    
+    
